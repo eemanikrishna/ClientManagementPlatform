@@ -202,7 +202,7 @@ Frontend will be available at: `http://localhost:4200`
 2. Sign up for a new account or login with existing credentials
 3. Navigate through the dashboard and manage clients
 
-## 🧪 Running Tests
+## Running Tests
 
 ### Run All Tests
 
