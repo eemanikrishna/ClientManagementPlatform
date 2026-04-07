@@ -1,0 +1,69 @@
+<div class="auth-split animate-fade-in">
+  <aside class="auth-visual auth-visual--signup" aria-hidden="true">
+    <svg class="auth-visual__svg" viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="120" r="72" stroke="rgba(255,255,255,0.35)" stroke-width="2" fill="rgba(255,255,255,0.08)"/>
+      <circle cx="200" cy="120" r="48" stroke="rgba(255,255,255,0.45)" stroke-width="2" fill="none" stroke-dasharray="12 8"/>
+      <path d="M200 88v64M168 120h64" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/>
+      <rect x="48" y="188" width="304" height="44" rx="10" fill="rgba(255,255,255,0.15)"/>
+      <rect x="64" y="200" width="88" height="20" rx="6" fill="rgba(255,255,255,0.35)"/>
+      <rect x="168" y="202" width="168" height="16" rx="4" fill="rgba(255,255,255,0.2)"/>
+      <circle cx="320" cy="56" r="36" fill="url(#glowS)" opacity="0.5"/>
+      <defs>
+        <radialGradient id="glowS" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(320 56) rotate(90) scale(36)">
+          <stop stop-color="#a5f3fc"/>
+          <stop offset="1" stop-color="#a5f3fc" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+    </svg>
+    <div class="auth-visual__copy">
+      <h2>Join the advisor network</h2>
+      <p>Create your account and start onboarding clients with structured risk assessment and KYC-ready records.</p>
+    </div>
+  </aside>
+
+  <div class="auth-form-wrap">
+    <mat-card class="auth-card auth-card--elevated">
+      <mat-card-header class="auth-card-header">
+        <div class="auth-icon-badge auth-icon-badge--signup">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="22" height="22" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <mat-card-title class="auth-title gradient-text">Create account</mat-card-title>
+        <mat-card-subtitle class="auth-subtitle">Register as a financial advisor</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Full name</mat-label>
+            <input matInput formControlName="name" placeholder="Jane Advisor" autocomplete="name">
+            <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="agent@example.com" autocomplete="email">
+            <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
+            <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" autocomplete="new-password">
+            <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="form.get('password')?.hasError('minlength')">Minimum 6 characters</mat-error>
+          </mat-form-field>
+
+          <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+          <button mat-raised-button color="primary" type="submit" class="full-width auth-submit" [disabled]="form.invalid">Sign up</button>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="auth-footer">
+        <p>Already have an account? <a routerLink="/login" class="accent-link">Sign in</a></p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

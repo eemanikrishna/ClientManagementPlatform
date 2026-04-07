@@ -1,0 +1,170 @@
+<section class="dashboard-page">
+  <header class="dashboard-hero">
+    <div class="dashboard-hero__text">
+      <p class="dashboard-eyebrow">Portfolio</p>
+      <h1 class="dashboard-title">Client dashboard</h1>
+      <p class="dashboard-lead">Search by name, filter by risk, and keep every relationship organized.</p>
+      <div class="dashboard-stats">
+        <div class="stat-pill">
+          <span class="stat-pill__label">Total clients</span>
+          <span class="stat-pill__value">{{ totalClientCount }}</span>
+        </div>
+        <div class="stat-pill stat-pill--accent">
+          <span class="stat-pill__label">Showing</span>
+          <span class="stat-pill__value">{{ visibleClientCount }}</span>
+        </div>
+      </div>
+      <section class="dashboard-graph" aria-label="Risk category breakdown">
+        <h2 class="dashboard-graph__title">Risk category distribution</h2>
+        <div class="bar-row" *ngFor="let cat of riskCategoryKeys">
+          <span class="bar-label">{{cat}}</span>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width]="riskGraphData[cat] + '%'" [attr.data-value]="riskGraphData[cat] + '%'">
+            </div>
+          </div>
+          <span class="bar-value">{{riskCategoryCounts[cat] || 0}}</span>
+        </div>
+      </section>
+    </div>
+    <div class="dashboard-hero__art" aria-hidden="true">
+      <svg class="dashboard-illustration" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="dashGrad" x1="40" y1="20" x2="280" y2="200" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#818cf8"/>
+            <stop offset="1" stop-color="#a78bfa"/>
+          </linearGradient>
+          <linearGradient id="dashGrad2" x1="180" y1="40" x2="300" y2="160" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#38bdf8" stop-opacity="0.9"/>
+            <stop offset="1" stop-color="#6366f1" stop-opacity="0.5"/>
+          </linearGradient>
+        </defs>
+        <rect x="16" y="24" width="288" height="168" rx="18" fill="white" fill-opacity="0.55" stroke="rgba(79,70,229,0.2)" stroke-width="1"/>
+        <rect x="36" y="44" width="96" height="56" rx="8" fill="url(#dashGrad)" fill-opacity="0.35"/>
+        <path d="M44 118h80v8H44v-8zm0 16h56v8H44v-8z" fill="#94a3b8" fill-opacity="0.5"/>
+        <rect x="148" y="44" width="140" height="120" rx="10" fill="url(#dashGrad2)" fill-opacity="0.25"/>
+        <path d="M164 140c16-32 36-52 56-52s36 24 52 68" stroke="#4f46e5" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+        <circle cx="212" cy="88" r="5" fill="#f59e0b"/>
+        <circle cx="248" cy="72" r="5" fill="#10b981"/>
+        <rect x="164" y="156" width="108" height="6" rx="3" fill="#cbd5e1"/>
+        <circle cx="268" cy="36" r="22" fill="#4f46e5" fill-opacity="0.15"/>
+        <circle cx="48" cy="188" r="4" fill="#c4b5fd"/>
+        <circle cx="272" cy="196" r="6" fill="#7dd3fc"/>
+      </svg>
+    </div>
+  </header>
+
+  <div class="dashboard-toolbar">
+    <div class="dashboard-filters">
+      <mat-form-field appearance="outline" class="dashboard-filters__search">
+        <mat-label>Search by name</mat-label>
+        <input matInput [(ngModel)]="nameSearch" placeholder="Type a client name" aria-label="Search clients by name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="dashboard-filters__risk">
+        <mat-label>Risk category</mat-label>
+        <mat-select [(ngModel)]="riskFilter" aria-label="Filter by risk category">
+          <mat-option *ngFor="let opt of riskCategoryOptions" [value]="opt.value">{{ opt.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" class="dashboard-add-btn" id="addClientBtn" routerLink="/add">
+      <span class="dashboard-add-btn__icon" aria-hidden="true">+</span>
+      Add client
+    </button>
+  </div>
+
+  <div class="clients-table-wrapper">
+    <table mat-table [dataSource]="filteredClients" class="mat-elevation-z8 clients-table">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="col-id"> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="col-name"> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef class="col-phone"> Phone </th>
+      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="riskCategory">
+      <th mat-header-cell *matHeaderCellDef class="col-risk"> Risk </th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          class="risk-badge"
+          [ngClass]="{
+            'risk-high': element.riskCategory === 'Aggressive',
+            'risk-medium': element.riskCategory === 'Moderate',
+            'risk-low': element.riskCategory === 'Conservative' || !element.riskCategory
+          }"
+        >
+          <span class="risk-dot" aria-hidden="true"></span>
+          <span class="risk-text">{{element.riskCategory}} </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="col-actions"> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="clients-table__actions">
+          <button
+            mat-stroked-button
+            color="primary"
+            [routerLink]="['/view', element.id]"
+            matTooltip="View client"
+            aria-label="View client"
+            class="action-btn"
+          >
+            <svg class="action-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
+            <span class="action-text">View</span>
+          </button>
+          <button
+            mat-stroked-button
+            color="accent"
+            [routerLink]="['/edit', element.id]"
+            matTooltip="Edit client"
+            aria-label="Edit client"
+            class="action-btn"
+          >
+            <svg class="action-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 20h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="action-text">Edit</span>
+          </button>
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="deleteClient(element.id)"
+            matTooltip="Delete client"
+            aria-label="Delete client"
+            class="action-btn"
+          >
+            <svg class="action-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M3 6h18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8 6V4h8v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6 6l1 16h10l1-16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="action-text">Delete</span>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-mdc-row dashboard-empty-row" *matNoDataRow>
+      <td class="mat-mdc-cell dashboard-empty-cell" [attr.colspan]="displayedColumns.length">
+        {{ emptyTableMessage }}
+      </td>
+    </tr>
+  </table>
+  </div>
+</section>

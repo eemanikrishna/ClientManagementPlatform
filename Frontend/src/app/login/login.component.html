@@ -1,0 +1,62 @@
+<div class="auth-split animate-fade-in">
+  <aside class="auth-visual" aria-hidden="true">
+    <svg class="auth-visual__svg" viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="24" y="40" width="352" height="200" rx="16" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+      <rect x="44" y="64" width="120" height="72" rx="8" fill="rgba(255,255,255,0.2)"/>
+      <path d="M44 152h120v8H44v-8zm0 20h80v8H44v-8z" fill="rgba(255,255,255,0.35)"/>
+      <rect x="184" y="64" width="172" height="140" rx="8" fill="rgba(255,255,255,0.08)"/>
+      <path d="M200 176c18-28 32-42 48-42s38 22 56 58" stroke="rgba(255,255,255,0.55)" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="248" cy="118" r="6" fill="#fbbf24"/>
+      <circle cx="288" cy="98" r="6" fill="#34d399"/>
+      <rect x="200" y="188" width="140" height="8" rx="4" fill="rgba(255,255,255,0.25)"/>
+      <circle cx="360" cy="48" r="28" fill="url(#glow1)" opacity="0.6"/>
+      <defs>
+        <radialGradient id="glow1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 48) rotate(90) scale(28)">
+          <stop stop-color="#fff"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+    </svg>
+    <div class="auth-visual__copy">
+      <h2>Your clients, one clear view</h2>
+      <p>Track risk profiles, documents, and relationships in a workspace built for advisors.</p>
+    </div>
+  </aside>
+
+  <div class="auth-form-wrap">
+    <mat-card class="auth-card auth-card--elevated">
+      <mat-card-header class="auth-card-header">
+        <div class="auth-icon-badge">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="22" height="22" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"></path>
+          </svg>
+        </div>
+        <mat-card-title class="auth-title gradient-text">Welcome back</mat-card-title>
+        <mat-card-subtitle class="auth-subtitle">Sign in to your advisor dashboard</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email address</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="agent@example.com" autocomplete="email">
+            <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
+            <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email address</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" placeholder="Enter your password" autocomplete="current-password">
+            <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+          </mat-form-field>
+
+          <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+          <button mat-raised-button color="primary" type="submit" class="full-width auth-submit" [disabled]="form.invalid">Sign in</button>
+        </form>
+      </mat-card-content>
+      <mat-card-actions class="auth-footer">
+        <p>Don't have an account? <a routerLink="/signup" class="accent-link">Create one</a></p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

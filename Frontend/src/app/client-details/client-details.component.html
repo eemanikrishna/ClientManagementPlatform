@@ -1,0 +1,113 @@
+<div class="details-page" *ngIf="client">
+  <a routerLink="/dashboard" class="details-back">← Back to dashboard</a>
+
+  <header class="details-hero">
+    <div class="details-hero__avatar" aria-hidden="true">{{ initials(client.name) }}</div>
+    <div class="details-hero__main">
+      <p class="details-eyebrow">Client profile</p>
+      <h1 class="details-name">{{ client.name }}</h1>
+      <div class="details-hero__meta">
+        <span class="details-id">ID {{ client.id }}</span>
+        <span
+          class="risk-pill"
+          [ngClass]="{
+            'risk-pill--aggressive': client.riskCategory === 'Aggressive',
+            'risk-pill--moderate': client.riskCategory === 'Moderate',
+            'risk-pill--conservative': client.riskCategory === 'Conservative' || !client.riskCategory
+          }"
+        >
+          <span class="risk-pill__dot"></span>
+          {{ client.riskCategory || '—' }} risk
+        </span>
+      </div>
+    </div>
+    <div class="details-hero__actions">
+      <button mat-stroked-button type="button" routerLink="/dashboard">Close</button>
+      <button mat-raised-button color="primary" type="button" [routerLink]="['/edit', client.id]">Edit client</button>
+    </div>
+  </header>
+
+  <div class="details-grid">
+    <mat-card class="detail-card">
+      <mat-card-header class="detail-card__header">
+        <div class="detail-card__icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <mat-card-title>Personal</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="detail-list">
+          <div class="detail-row"><dt>Date of birth</dt><dd>{{ client.dob | date:'dd MMM yyyy' }}</dd></div>
+          <div class="detail-row"><dt>Gender</dt><dd>{{ client.gender }}</dd></div>
+          <div class="detail-row"><dt>Phone</dt><dd>{{ client.phone }}</dd></div>
+          <div class="detail-row"><dt>Email</dt><dd>{{ client.email }}</dd></div>
+          <div class="detail-row"><dt>Address</dt><dd>{{ client.address || '—' }}</dd></div>
+          <div class="detail-row"><dt>Parents</dt><dd>{{ client.fatherName || '—' }} / {{ client.motherName || '—' }}</dd></div>
+          <div class="detail-row"><dt>Blood group</dt><dd>{{ client.bloodGroup }}</dd></div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header class="detail-card__header">
+        <div class="detail-card__icon detail-card__icon--finance" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <mat-card-title>Financial</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="detail-list">
+          <div class="detail-row"><dt>Income</dt><dd>{{ client.annualIncome }}</dd></div>
+          <div class="detail-row"><dt>Employment</dt><dd>{{ client.employmentStatus }}</dd></div>
+          <div class="detail-row"><dt>Net worth</dt><dd>{{ client.approxNetWorth || '—' }}</dd></div>
+          <div class="detail-row"><dt>Existing loans</dt><dd>{{ client.existingLoans }}</dd></div>
+          <div class="detail-row"><dt>Planned investment</dt><dd><span class="detail-currency">$</span>{{ client.investmentAmount }}</dd></div>
+          <div class="detail-row"><dt>Horizon</dt><dd>{{ client.investmentDuration }} months</dd></div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header class="detail-card__header">
+        <div class="detail-card__icon detail-card__icon--chart" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 5-8"/></svg>
+        </div>
+        <mat-card-title>Investment preferences</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="detail-list">
+          <div class="detail-row"><dt>Goals</dt><dd>{{ client.investmentGoal || '—' }}</dd></div>
+          <div class="detail-row"><dt>Assets</dt><dd>{{ client.preferredAssets || '—' }}</dd></div>
+          <div class="detail-row"><dt>Liquidity</dt><dd>{{ client.liquidityNeed || '—' }}</dd></div>
+          <div class="detail-row"><dt>Experience</dt><dd>{{ client.investmentExperience }}</dd></div>
+          <div class="detail-row"><dt>Market drop reaction</dt><dd>{{ client.marketDropReaction }}</dd></div>
+          <div class="detail-row"><dt>Risk tolerance</dt><dd>{{ client.riskTolerance }}</dd></div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-header class="detail-card__header">
+        <div class="detail-card__icon detail-card__icon--shield" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <mat-card-title>Identity & compliance</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="detail-list">
+          <div class="detail-row"><dt>ID</dt><dd>{{ client.idType }} — {{ client.idNumber }}</dd></div>
+          <div class="detail-row"><dt>KYC offline</dt><dd>{{ client.kycCompleted ? 'Yes' : 'No' }}</dd></div>
+          <div class="detail-row"><dt>Politically exposed</dt><dd>{{ client.politicallyExposed }}</dd></div>
+          <div class="detail-row"><dt>Policy opt-in</dt><dd>{{ client.policyPreference }}</dd></div>
+          <div class="detail-row detail-row--doc">
+            <dt>Document</dt>
+            <dd>
+              <span class="doc-name">{{ client.documentName || 'None' }}</span>
+              <button *ngIf="client.documentName" mat-stroked-button color="primary" type="button" (click)="downloadDoc(client)" class="doc-btn">Download</button>
+            </dd>
+          </div>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

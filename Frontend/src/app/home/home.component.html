@@ -1,0 +1,48 @@
+<section class="home">
+  <div class="home__hero">
+    <p class="home__eyebrow">Advisors &amp; agents</p>
+    <h1 class="home__title">Client Management Platform</h1>
+    <p class="home__lead">
+      Onboard clients, capture risk and compliance, and keep every relationship organized in one place.
+    </p>
+
+    <div class="home__cta" *ngIf="!auth.isLoggedIn()">
+      <button mat-raised-button color="primary" class="home__btn-primary" routerLink="/signup">Get started</button>
+      <button mat-stroked-button class="home__btn-secondary" routerLink="/login">Sign in</button>
+    </div>
+    <div class="home__cta" *ngIf="auth.isLoggedIn()">
+      <button mat-raised-button color="primary" class="home__btn-primary" routerLink="/dashboard">Go to dashboard</button>
+      <button mat-stroked-button class="home__btn-secondary" routerLink="/add">Add a client</button>
+    </div>
+  </div>
+
+  <ul class="home__features" aria-label="Highlights">
+    <li class="home__feature">
+      <span class="home__feature-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <div>
+        <strong>Client records</strong>
+        <span>Profiles, contact details, and documents in a single workflow.</span>
+      </div>
+    </li>
+    <li class="home__feature">
+      <span class="home__feature-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 5-8"/></svg>
+      </span>
+      <div>
+        <strong>Risk-aware</strong>
+        <span>Tolerance and behavior inputs feed a clear risk category.</span>
+      </div>
+    </li>
+    <li class="home__feature">
+      <span class="home__feature-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </span>
+      <div>
+        <strong>Compliance-ready</strong>
+        <span>KYC flags, PEP checks, and policy opt-in where you need them.</span>
+      </div>
+    </li>
+  </ul>
+</section>
