@@ -1,6 +1,6 @@
-# Financial Advisor Portal CMS
+# Client Management Platform
 
-A comprehensive Client Management System for Financial Advisors with a Spring Boot backend, Angular frontend, and automated testing framework.
+A comprehensive Client Management Platform for Financial Advisors with a Spring Boot backend, Angular frontend, and automated testing framework.
 
 ## Table of Contents
 
@@ -279,12 +279,3 @@ The automation framework includes:
 - **Extent Reports** integration
 - **Cucumber BDD** for readable test scenarios
 - **TestNG** for advanced test execution
-
-## Security Features
-
-- JWT token-based authentication
-- Password encryption
-- Role-based authorization
-- CORS configuration
-- SQL injection prevention
-- XSS protection
