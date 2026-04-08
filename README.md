@@ -160,8 +160,8 @@ cd Frontend
 # Install dependencies
 npm install
 
-# Build the application
-npm run build
+# Run the Application
+npm start
 ```
 
 ### 4. Test Automation Setup (Cucumber)
